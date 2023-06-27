@@ -19,13 +19,14 @@ typedef struct listint_s
 	struct listint_s *next;
 } listint_t;
 
+void swapper(int *a, int *b);
 void print_array(const int *array, size_t size);
 void print_list(const listint_t *list);
 void bubble_sort(int *array, size_t size);
 void insertion_sort_list(listint_t **list);
 void selection_sort(int *array, size_t size);
 void quick_sort(int *array, size_t size);
-void swapper(int *a, int *b);
 listint_t *create_listint(const int *array, size_t size);
-
+size_t lomutu(int *array, size_t size);
+void print_sort(int array[], size_t size, int start);
 #endif /* !SORT_H */
