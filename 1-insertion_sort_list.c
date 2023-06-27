@@ -13,7 +13,6 @@ void insertion_sort_list(listint_t **list)
 	array = to_array(list, &size);
 	if (array == NULL)
 		return;
-	printf("%d\n", size);
 	for (i = 1; i < size; i++)
 	{
 		p = array[i];
