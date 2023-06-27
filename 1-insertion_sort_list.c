@@ -5,20 +5,15 @@
 */
 void insertion_sort_list(listint_t **list)
 {
-	int *array, p, *arr, i, j;
-	int size = -1;
+	int *array, p, i, j;
+	int size;
 
 	if (list == NULL || (*list) == NULL || (*list)->next == NULL)
 		return;
-	array = to_array(list);
+	array = to_array(list, &size);
 	if (array == NULL)
 		return;
-	arr = array;
-	while (*arr != 0)
-	{
-		size++;
-		arr++;
-	}
+	printf("%d\n", size);
 	for (i = 1; i < size; i++)
 	{
 		p = array[i];
@@ -37,9 +32,10 @@ void insertion_sort_list(listint_t **list)
 /**
 * to_array - convert linked list to array
 * @list: list to be converted
+* @s: size
 * Return: array
 */
-int *to_array(listint_t **list)
+int *to_array(listint_t **list, int *s)
 {
 	int i = 0, *array, j = 0;
 	listint_t *ptr;
@@ -62,6 +58,7 @@ int *to_array(listint_t **list)
 		ptr = ptr->next;
 		j++;
 	}
+	*s = j;
 	return (array);
 }
 
