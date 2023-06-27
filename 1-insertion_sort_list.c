@@ -5,32 +5,128 @@
 */
 void insertion_sort_list(listint_t **list)
 {
-	listint_t *swap, *ptr;
-	int i;
+	int *array, p, *arr, i, j;
+	int size = -1;
 
-	if (*list == NULL || list == NULL)
+	if (list == NULL || (*list) == NULL || (*list)->next == NULL)
 		return;
+	array = to_array(list);
+	if (array == NULL)
+		return;
+	arr = array;
+	while (*arr != 0)
+	{
+		size++;
+		arr++;
+	}
+	for (i = 1; i < size; i++)
+	{
+		p = array[i];
+		j = i - 1;
+		while (j >= 0 && array[j] > p)
+		{
+			swapper(&array[j + 1], &array[j]);
+			print_array(array, size);
+			j = j - 1;
+		}
+		array[j + 1] = p;
+	}
+	*list = creat_listint(array, size);
+}
+
+/**
+* to_array - convert linked list to array
+* @list: list to be converted
+* Return: array
+*/
+int *to_array(listint_t **list)
+{
+	int i = 0, *array, j = 0;
+	listint_t *ptr;
+
+	if (list == NULL || (*list) == NULL)
+		return (NULL);
 	ptr = *list;
-	swap = *list;
 	while (ptr)
 	{
 		ptr = ptr->next;
 		i++;
 	}
-	if (i < 2)
-		return;
+	array = malloc(sizeof(int) * i);
+	if (array == NULL)
+		return (NULL);
 	ptr = *list;
-	while (ptr && ptr->next)
+	while (ptr)
 	{
-		if (ptr->next->n < ptr->n)
-		{
-			swap = ptr->next;
-			ptr->next = ptr->next->next;
-			ptr->next->next = ptr;
-			ptr = swap;
-			print_list(*list);
-		}
+		array[j] = ptr->n;
 		ptr = ptr->next;
+		j++;
 	}
+	return (array);
 }
 
+/**
+* creat_listint - Creates a doubly linked list from an array of integers
+*
+* @array: Array to convert to a doubly linked list
+* @size: Size of the array
+*
+* Return: Pointer to the first element of the created list. NULL on failure
+*/
+listint_t *creat_listint(const int *array, size_t size)
+{
+	listint_t *list;
+	listint_t *node;
+	int *tmp;
+
+	list = NULL;
+	while (size--)
+	{
+		node = malloc(sizeof(*node));
+		if (!node)
+			return (NULL);
+		tmp = (int *)&node->n;
+		*tmp = array[size];
+		node->next = list;
+		node->prev = NULL;
+		list = node;
+	if (list->next)
+		list->next->prev = list;
+	}
+	return (list);
+}
+
+/**
+* print_array - Prints an array of integers
+*
+* @array: The array to be printed
+* @size: Number of elements in @array
+*/
+void print_array(const int *array, size_t size)
+{
+	size_t i;
+
+	i = 0;
+	while (array && i < size)
+	{
+		if (i > 0)
+			printf(", ");
+		printf("%d", array[i]);
+		++i;
+	}
+	printf("\n");
+}
+
+/**
+* swapper - swaps two numbers
+* @a: first num
+* @b: secon num
+*/
+void swapper(int *a, int *b)
+{
+	int temp;
+
+	temp = *a;
+	*a = *b;
+	*b = temp;
+}
